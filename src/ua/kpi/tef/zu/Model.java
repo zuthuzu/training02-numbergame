@@ -77,12 +77,12 @@ public class Model {
 	public String inputDump() {
 		String result = "";
 		while (userInputsQue.peek() != null) {
-			result = result + userInputsQue.poll();
+			result += userInputsQue.poll();
 
 			if (userInputsQue.peek() != null) {
-				result = result + View.INPUT_QUE_SEPARATOR;
+				result += View.INPUT_QUE_SEPARATOR;
 			} else {
-				result = result + View.INPUT_QUE_TERMINATOR;
+				result += View.INPUT_QUE_TERMINATOR;
 			}
 		}
 		return result;

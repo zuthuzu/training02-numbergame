@@ -2,6 +2,10 @@ package ua.kpi.tef.zu;
 
 import java.util.Scanner;
 
+/**
+ * Created by Anton Domin on 2020-02-06
+ */
+
 public class Controller {
 
 	// Constructor
@@ -16,52 +20,62 @@ public class Controller {
 	// The Work method
 	public void startNumberGame() {
 		Scanner sc = new Scanner(System.in);
-		int recentInput;
-		byte lookupCode;
-		boolean gameIsWon = false;
-		boolean inputIsRepeated = false;
 
 		model.newTarget();
 
 		view.printMessage(View.GUESS_INTRO);
 		view.printMessage(View.RANGE_INFO_1 + model.getTargetFloor() + View.RANGE_INFO_2 + model.getTargetCeiling() + View.RANGE_INFO_3);
 
-		do {
-			recentInput = inputIntValueWithScanner(sc);
-			inputIsRepeated = model.inputIsRepeated(recentInput);
-			lookupCode = model.checkInput(recentInput);
-
-			switch (lookupCode) {
-				case (0):
-					view.printMessage(View.GUESS_BINGO);
-					gameIsWon = true;
-					break;
-				case (-1):
-					view.printMessage(View.GUESS_BELOW_TARGET);
-					break;
-				case (1):
-					view.printMessage(View.GUESS_ABOVE_TARGET);
-					break;
-				case (-2):
-					view.printMessage(View.GUESS_BELOW_FLOOR);
-					break;
-				case (2):
-					view.printMessage(View.GUESS_ABOVE_CEILING);
-					break;
-				default:
-					view.printMessage(View.GUESS_WTF);
-					break;
-			}
-
-			if (inputIsRepeated) {
-				view.printMessage(View.GUESS_REPEAT);
-			}
-		} while (!gameIsWon);
+		coreInputLoop(sc);
 
 		//we can only get here by guessing right
 		view.printMessage(View.INPUT_SIZE_1 + model.inputSize() + View.INPUT_SIZE_2);
 		view.printMessage(View.INPUT_QUE + model.inputDump());
 
+	}
+
+	private void coreInputLoop(Scanner sc) {
+		int recentInput;
+		boolean inputIsRepeated;
+		boolean gameIsWon;
+		do {
+			recentInput = inputIntValueWithScanner(sc);
+
+			inputIsRepeated = model.inputIsRepeated(recentInput);
+
+			gameIsWon = isGameWon(model.checkInput(recentInput));
+
+			if (inputIsRepeated) {
+				view.printMessage(View.GUESS_REPEAT);
+			}
+		} while (!gameIsWon);
+	}
+
+	private boolean isGameWon(byte lookupCode) {
+		boolean gameIsWon = false;
+
+		switch (lookupCode) {
+			case (0):
+				view.printMessage(View.GUESS_BINGO);
+				gameIsWon = true;
+				break;
+			case (-1):
+				view.printMessage(View.GUESS_BELOW_TARGET);
+				break;
+			case (1):
+				view.printMessage(View.GUESS_ABOVE_TARGET);
+				break;
+			case (-2):
+				view.printMessage(View.GUESS_BELOW_FLOOR);
+				break;
+			case (2):
+				view.printMessage(View.GUESS_ABOVE_CEILING);
+				break;
+			default:
+				view.printMessage(View.GUESS_WTF);
+				break;
+		}
+		return gameIsWon;
 	}
 
 	// The Utility methods
