@@ -8,12 +8,14 @@ import java.util.*;
 
 public class Model {
 	// The Constants
-	private static final int TARGET_FLOOR = 0;
-	private static final int TARGET_CEILING = 100;
+	private static final int STARTING_FLOOR = 0;
+	private static final int STARTING_CEILING = 100;
+
+	private int targetFloor;
+	private int targetCeiling;
 
 	private int targetValue;
-	private Queue<Integer> userInputsQue = new LinkedList<>();
-	private Set<Integer> userInputsSet = new HashSet<>();
+	private Queue<Integer> userInputQue = new LinkedList<>();
 
 	// there is really no reason to start without a ready number
 	public Model() {
@@ -21,20 +23,20 @@ public class Model {
 	}
 
 	public int getTargetFloor() {
-		return TARGET_FLOOR;
+		return targetFloor;
 	}
 
 	public int getTargetCeiling() {
-		return TARGET_CEILING;
+		return targetCeiling;
 	}
 
 	public void newTarget() {
-		targetValue = (int) (Math.random() * (TARGET_CEILING - TARGET_FLOOR) + TARGET_FLOOR);
+		targetFloor = STARTING_FLOOR;
+		targetCeiling = STARTING_CEILING;
 
-		userInputsSet.clear();
+		targetValue = (int) (Math.random() * (targetCeiling - targetFloor - 1) + targetFloor + 1);
 
-		while (userInputsQue.poll() != null) {
-		}
+		while (userInputQue.poll() != null) ;
 	}
 
 	public int getTarget() {
@@ -43,49 +45,36 @@ public class Model {
 
 	public byte checkInput(int value) {
 
-		if (value < TARGET_FLOOR) {
+		if (value <= targetFloor) {
 			return -2;
 		}
 
-		if (value > TARGET_CEILING) {
+		if (value >= targetCeiling) {
 			return 2;
 		}
 
 		// we only log valid inputs
-		userInputsQue.add(value);
-		userInputsSet.add(value);
+		userInputQue.add(value);
 
 		if (value < targetValue) {
+			targetFloor = value;
 			return -1;
 		}
 
 		if (value > targetValue) {
+			targetCeiling = value;
 			return 1;
 		}
 
 		return 0; //at this point we can safely assume it equals targetValue
 	}
 
-	public boolean inputIsRepeated(int value) {
-		return userInputsSet.contains(value);
-	}
-
 	public int inputSize() {
-		return userInputsQue.size();
+		return userInputQue.size();
 	}
 
-	public String inputDump() {
-		String result = "";
-		while (userInputsQue.peek() != null) {
-			result += userInputsQue.poll();
-
-			if (userInputsQue.peek() != null) {
-				result += View.INPUT_QUE_SEPARATOR;
-			} else {
-				result += View.INPUT_QUE_TERMINATOR;
-			}
-		}
-		return result;
+	public Queue<Integer> getFullInputQue() {
+		return userInputQue;
 	}
 
 }

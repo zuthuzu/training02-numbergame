@@ -1,5 +1,6 @@
 package ua.kpi.tef.zu;
 
+import java.util.Queue;
 import java.util.Scanner;
 
 /**
@@ -23,14 +24,13 @@ public class Controller {
 
 		model.newTarget();
 
-		view.printMessage(View.GUESS_INTRO);
-		view.printMessage(View.RANGE_INFO_1 + model.getTargetFloor() + View.RANGE_INFO_2 + model.getTargetCeiling() + View.RANGE_INFO_3);
+		view.printAndEndLine(View.GUESS_INTRO);
 
 		coreInputLoop(sc);
 
 		//we can only get here by guessing right
-		view.printMessage(View.INPUT_SIZE_1 + model.inputSize() + View.INPUT_SIZE_2);
-		view.printMessage(View.INPUT_QUE + model.inputDump());
+		view.printAndEndLine(View.INPUT_SIZE_1 + model.inputSize() + View.INPUT_SIZE_2);
+		view.printAndEndLine(View.INPUT_QUE + inputQueDump());
 
 	}
 
@@ -39,15 +39,11 @@ public class Controller {
 		boolean inputIsRepeated;
 		boolean gameIsWon;
 		do {
+			view.printAndEndLine(View.RANGE_INFO_1 + model.getTargetFloor() + View.RANGE_INFO_2 + model.getTargetCeiling() + View.RANGE_INFO_3);
+
 			recentInput = inputIntValueWithScanner(sc);
 
-			inputIsRepeated = model.inputIsRepeated(recentInput);
-
 			gameIsWon = isGameWon(model.checkInput(recentInput));
-
-			if (inputIsRepeated) {
-				view.printMessage(View.GUESS_REPEAT);
-			}
 		} while (!gameIsWon);
 	}
 
@@ -56,23 +52,23 @@ public class Controller {
 
 		switch (lookupCode) {
 			case (0):
-				view.printMessage(View.GUESS_BINGO);
+				view.printAndKeepLine(View.GUESS_BINGO);
 				gameIsWon = true;
 				break;
 			case (-1):
-				view.printMessage(View.GUESS_BELOW_TARGET);
+				view.printAndKeepLine(View.GUESS_BELOW_TARGET);
 				break;
 			case (1):
-				view.printMessage(View.GUESS_ABOVE_TARGET);
+				view.printAndKeepLine(View.GUESS_ABOVE_TARGET);
 				break;
 			case (-2):
-				view.printMessage(View.GUESS_BELOW_FLOOR);
+				view.printAndKeepLine(View.GUESS_BELOW_FLOOR);
 				break;
 			case (2):
-				view.printMessage(View.GUESS_ABOVE_CEILING);
+				view.printAndKeepLine(View.GUESS_ABOVE_CEILING);
 				break;
 			default:
-				view.printMessage(View.GUESS_WTF);
+				view.printAndKeepLine(View.GUESS_WTF);
 				break;
 		}
 		return gameIsWon;
@@ -80,13 +76,31 @@ public class Controller {
 
 	// The Utility methods
 	public int inputIntValueWithScanner(Scanner sc) {
-		view.printMessage(View.INPUT_GUESS);
+		view.printAndKeepLine(View.INPUT_GUESS);
 		while (!sc.hasNextInt()) {
-			view.printMessage(View.GUESS_NAN);
-			view.printMessage(View.INPUT_GUESS);
+			view.printAndEndLine(View.GUESS_NAN);
+			view.printAndKeepLine(View.INPUT_GUESS);
 			sc.next();
 		}
 		return sc.nextInt();
+	}
+
+	public String inputQueDump() {
+		String result = "";
+		Queue<Integer> userInputQue;
+
+		userInputQue = model.getFullInputQue();
+
+		while (userInputQue.peek() != null) {
+			result += userInputQue.poll();
+
+			if (userInputQue.peek() != null) {
+				result += View.INPUT_QUE_SEPARATOR;
+			} else {
+				result += View.INPUT_QUE_TERMINATOR;
+			}
+		}
+		return result;
 	}
 
 }
