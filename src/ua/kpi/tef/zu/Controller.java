@@ -36,7 +36,6 @@ public class Controller {
 
 	private void coreInputLoop(Scanner sc) {
 		int recentInput;
-		boolean inputIsRepeated;
 		boolean gameIsWon;
 		do {
 			view.printAndEndLine(View.RANGE_INFO_1 + model.getTargetFloor() + View.RANGE_INFO_2 + model.getTargetCeiling() + View.RANGE_INFO_3);
