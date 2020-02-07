@@ -9,7 +9,7 @@ public class View {
 	public static final String GUESS_INTRO = "Hello! Welcome to the game of 'Guess a number'.";
 	public static final String RANGE_INFO_1 = "The number is somewhere between ";
 	public static final String RANGE_INFO_2 = " and ";
-	public static final String RANGE_INFO_3 = ". Good luck!";
+	public static final String RANGE_INFO_3 = ".";
 	public static final String INPUT_GUESS = "Cmon, make a guess: ";
 	public static final String GUESS_NAN = "What? That's not even a number.";
 	public static final String GUESS_WTF = "...Something went wrong here. Let's try to forget about this.";
@@ -17,7 +17,6 @@ public class View {
 	public static final String GUESS_BELOW_TARGET = "Nice try, but you need to get higher.";
 	public static final String GUESS_ABOVE_TARGET = "Nice try, but you need to drop lower.";
 	public static final String GUESS_ABOVE_CEILING = "Nooo, that's way too high. It can't be that high.";
-	public static final String GUESS_REPEAT = "Also, you've already tried that number. Be more careful.";
 	public static final String GUESS_BINGO = "Bingo! Congratulations.";
 	public static final String INPUT_SIZE_1 = "It took you ";
 	public static final String INPUT_SIZE_2 = " attempts to guess right.";
@@ -25,7 +24,11 @@ public class View {
 	public static final String INPUT_QUE_SEPARATOR = ", ";
 	public static final String INPUT_QUE_TERMINATOR = ".";
 
-	public void printMessage(String message) {
+	public void printAndKeepLine(String message) {
+		System.out.print(message + " ");
+	}
+
+	public void printAndEndLine(String message) {
 		System.out.println(message);
 	}
 }
