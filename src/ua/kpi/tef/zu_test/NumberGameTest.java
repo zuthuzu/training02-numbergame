@@ -26,7 +26,7 @@ public class NumberGameTest {
 		boolean rolledRealLow = false, rolledRealHigh = false;
 
 		// let's assume _real_ low and high rolls to be within 1% off both ends
-		int rollTolerance = (targetCeiling - targetFloor) / 100;
+		int rollTolerance = Math.max(((targetCeiling - targetFloor) / 100), 1);
 
 		for (int i = 0; i < SATURATION_ITERATION_LIMIT; i++) {
 			numberModel.newTarget();

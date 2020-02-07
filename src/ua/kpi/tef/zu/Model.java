@@ -15,7 +15,7 @@ public class Model {
 	private int targetCeiling;
 
 	private int targetValue;
-	private Queue<Integer> userInputsQue = new LinkedList<>();
+	private Queue<Integer> userInputQue = new LinkedList<>();
 
 	// there is really no reason to start without a ready number
 	public Model() {
@@ -36,7 +36,7 @@ public class Model {
 
 		targetValue = (int) (Math.random() * (targetCeiling - targetFloor - 1) + targetFloor + 1);
 
-		while (userInputsQue.poll() != null) ;
+		while (userInputQue.poll() != null) ;
 	}
 
 	public int getTarget() {
@@ -54,7 +54,7 @@ public class Model {
 		}
 
 		// we only log valid inputs
-		userInputsQue.add(value);
+		userInputQue.add(value);
 
 		if (value < targetValue) {
 			targetFloor = value;
@@ -70,21 +70,11 @@ public class Model {
 	}
 
 	public int inputSize() {
-		return userInputsQue.size();
+		return userInputQue.size();
 	}
 
-	public String inputDump() {
-		String result = "";
-		while (userInputsQue.peek() != null) {
-			result += userInputsQue.poll();
-
-			if (userInputsQue.peek() != null) {
-				result += View.INPUT_QUE_SEPARATOR;
-			} else {
-				result += View.INPUT_QUE_TERMINATOR;
-			}
-		}
-		return result;
+	public Queue<Integer> getFullInputQue() {
+		return userInputQue;
 	}
 
 }

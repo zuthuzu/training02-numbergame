@@ -1,5 +1,6 @@
 package ua.kpi.tef.zu;
 
+import java.util.Queue;
 import java.util.Scanner;
 
 /**
@@ -29,7 +30,7 @@ public class Controller {
 
 		//we can only get here by guessing right
 		view.printAndEndLine(View.INPUT_SIZE_1 + model.inputSize() + View.INPUT_SIZE_2);
-		view.printAndEndLine(View.INPUT_QUE + model.inputDump());
+		view.printAndEndLine(View.INPUT_QUE + inputQueDump());
 
 	}
 
@@ -82,6 +83,24 @@ public class Controller {
 			sc.next();
 		}
 		return sc.nextInt();
+	}
+
+	public String inputQueDump() {
+		String result = "";
+		Queue<Integer> userInputQue;
+
+		userInputQue = model.getFullInputQue();
+
+		while (userInputQue.peek() != null) {
+			result += userInputQue.poll();
+
+			if (userInputQue.peek() != null) {
+				result += View.INPUT_QUE_SEPARATOR;
+			} else {
+				result += View.INPUT_QUE_TERMINATOR;
+			}
+		}
+		return result;
 	}
 
 }
