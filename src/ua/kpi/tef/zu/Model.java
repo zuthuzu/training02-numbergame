@@ -15,7 +15,7 @@ public class Model {
 	private int targetCeiling;
 
 	private int targetValue;
-	private Queue<Integer> userInputQue = new LinkedList<>();
+	private Queue<Integer> userInputQue = new LinkedList<Integer>();
 
 	// there is really no reason to start without a ready number
 	public Model() {
