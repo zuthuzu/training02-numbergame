@@ -84,6 +84,7 @@ public class Controller {
 		return sc.nextInt();
 	}
 
+	@SuppressWarnings("StringConcatenationInLoop")
 	public String inputQueDump() {
 		String result = "";
 		Queue<Integer> userInputQue;

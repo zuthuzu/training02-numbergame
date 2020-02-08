@@ -15,6 +15,8 @@ public class Model {
 	private int targetCeiling;
 
 	private int targetValue;
+
+	@SuppressWarnings("Convert2Diamond")
 	private Queue<Integer> userInputQue = new LinkedList<Integer>();
 
 	// there is really no reason to start without a ready number
@@ -36,6 +38,7 @@ public class Model {
 
 		targetValue = (int) (Math.random() * (targetCeiling - targetFloor - 1) + targetFloor + 1);
 
+		//noinspection StatementWithEmptyBody
 		while (userInputQue.poll() != null) ;
 	}
 
