@@ -16,8 +16,7 @@ public class Model {
 
 	private int targetValue;
 
-	@SuppressWarnings("Convert2Diamond")
-	private Queue<Integer> userInputQue = new LinkedList<Integer>();
+	private Queue<Integer> userInputQue = new LinkedList<>();
 
 	// there is really no reason to start without a ready number
 	public Model() {
