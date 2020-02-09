@@ -31,6 +31,12 @@ public class Model {
 		return targetCeiling;
 	}
 
+	/**
+	 * Returns the game to its' starting state:<br>
+	 * 1. Resets the allowed range of inputs to default values.<br>
+	 * 2. Generates a new random target number within that range.<br>
+	 * 3. Empties the history of valid player inputs.<br>
+	 */
 	public void newTarget() {
 		targetFloor = STARTING_FLOOR;
 		targetCeiling = STARTING_CEILING;
@@ -45,6 +51,23 @@ public class Model {
 		return targetValue;
 	}
 
+	/**
+	 * Checks the number against the previously generated target number and a current range.<br>
+	 * <br>
+	 * If the number is inside the current allowed range, it logs the input.<br>
+	 * <br>
+	 * If the number is below the target, it becomes a new lower range bracket.<br>
+	 * <br>
+	 * If the number is above the target, it becomes a new higher range bracket.<br>
+	 *
+	 * @param  value an integer number that is to be checked
+	 * @return a numeric code:<br>
+	 * -2 : the number is below the allowed range,<br>
+	 * -1 : the number is within the allowed range, but below the target number,<br>
+	 * 0 : the number equals target number,<br>
+	 * 1 : the number is with the allowed range, but above the target number,<br>
+	 * 2 : the number is above the allowed range.
+	 */
 	public byte checkInput(int value) {
 
 		if (value <= targetFloor) {
