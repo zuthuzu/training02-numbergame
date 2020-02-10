@@ -84,23 +84,17 @@ public class Controller {
 		return sc.nextInt();
 	}
 
-	@SuppressWarnings("StringConcatenationInLoop")
 	public String inputQueDump() {
-		String result = "";
+		StringBuilder result = new StringBuilder();
 		Queue<Integer> userInputQue;
 
 		userInputQue = model.getFullInputQue();
 
 		while (userInputQue.peek() != null) {
-			result += userInputQue.poll();
-
-			if (userInputQue.peek() != null) {
-				result += View.INPUT_QUE_SEPARATOR;
-			} else {
-				result += View.INPUT_QUE_TERMINATOR;
-			}
+			result.append(userInputQue.poll());
+			result.append(userInputQue.peek() != null? View.INPUT_QUE_SEPARATOR: View.INPUT_QUE_TERMINATOR);
 		}
-		return result;
+		return result.toString();
 	}
 
 }
